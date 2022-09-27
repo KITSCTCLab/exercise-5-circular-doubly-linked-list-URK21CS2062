@@ -1,67 +1,242 @@
+# Python3 program to illustrate inserting
+# a Node in a Circular Doubly Linked list
+# in begging, end and middle
+ 
+# Structure of a Node
+
 class Node:
-    def __init__(self, data=None):
+
+    def __init__(self, data):
+
         self.data = data
-        self.previous = self
-        self.next = self
 
+        self.next = None
 
-class DoublyCircularLinkedList:
-    def __init__(self):
-        self.head = None
-        self.count = 0
+        self.prev = None
+ 
+# Function to insert at the end
+ 
+ 
 
-    def add_at_tail(self, data) -> bool:
-        # Write code here
+def insertEnd(value):
 
-    def add_at_head(self, data) -> bool:
-        # Write code here
+    global start
+ 
 
-    def add_at_index(self, index, data) -> bool:
-        # Write code here
+    # If the list is empty, create a
 
-    def get(self, index) -> int:
-        # Write code here
+    # single node circular and doubly list
 
-    def delete_at_index(self, index) -> bool:
-        # Write code here
+    if (start == None):
+ 
 
-    def get_previous_next(self, index) -> list:
-        # Write code here
+        new_node = Node(0)
 
+        new_node.data = value
 
-# Do not change the following code
-operations = []
-for specific_operation in input().split(','):
-    operations.append(specific_operation.strip())
-input_data = input()
-data = []
-iteration_count = 0
+        new_node.next = new_node.prev = new_node
 
-for item in input_data.split(', '):
-    inner_list = []
-    if item.isnumeric():
-        data.append(int(item))
-    elif item.startswith('['):
-        item = item[1:-1]
-        for letter in item.split(','):
-            if letter.isnumeric():
-                inner_list.append(int(letter))
-        data.append(inner_list)
+        start = new_node
 
-obj = DoublyCircularLinkedList()
-result = []
-for i in range(len(operations)):
-    if operations[i] == "add_at_head":
-        result.append(obj.add_at_head(data[i]))
-    elif operations[i] == "add_at_tail":
-        result.append(obj.add_at_tail(data[i]))
-    elif operations[i] == "add_at_index":
-        result.append(obj.add_at_index(int(data[i][0]), data[i][1]))
-    elif operations[i] == "get":
-        result.append(obj.get(data[i]))
-    elif operations[i] == "get_previous_next":
-        result.append(obj.get_previous_next(data[i]))
-    elif operations[i] == 'delete_at_index':
-        result.append(obj.delete_at_index(data[i]))
+        return
+ 
 
-print(result)
+    # If list is not empty
+ 
+
+    # Find last node */
+
+    last = (start).prev
+ 
+
+    # Create Node dynamically
+
+    new_node = Node(0)
+
+    new_node.data = value
+ 
+
+    # Start is going to be next of new_node
+
+    new_node.next = start
+ 
+
+    # Make new node previous of start
+
+    (start).prev = new_node
+ 
+
+    # Make last previous of new node
+
+    new_node.prev = last
+ 
+
+    # Make new node next of old last
+
+    last.next = new_node
+ 
+# Function to insert Node at the beginning
+# of the List,
+ 
+ 
+
+def insertBegin(value):
+
+    global start
+ 
+
+    # Pointer points to last Node
+
+    last = (start).prev
+ 
+
+    new_node = Node(0)
+
+    new_node.data = value  # Inserting the data
+ 
+
+    # setting up previous and
+
+    # next of new node
+
+    new_node.next = start
+
+    new_node.prev = last
+ 
+
+    # Update next and previous pointers
+
+    # of start and last.
+
+    last.next = (start).prev = new_node
+ 
+
+    # Update start pointer
+
+    start = new_node
+ 
+# Function to insert node with value as value1.
+# The new node is inserted after the node with
+# with value2
+ 
+ 
+
+def insertAfter(value1, value2):
+
+    global start
+
+    new_node = Node(0)
+
+    new_node.data = value1  # Inserting the data
+ 
+
+    # Find node having value2 and
+
+    # next node of it
+
+    temp = start
+
+    while (temp.data != value2):
+
+        temp = temp.next
+
+    next = temp.next
+ 
+
+    # insert new_node between temp and next.
+
+    temp.next = new_node
+
+    new_node.prev = temp
+
+    new_node.next = next
+
+    next.prev = new_node
+ 
+ 
+
+def display():
+
+    global start
+
+    temp = start
+ 
+
+    print("Traversal in forward direction:")
+
+    while (temp.next != start):
+ 
+
+        print(temp.data, end=" ")
+
+        temp = temp.next
+ 
+
+    print(temp.data)
+ 
+
+    print("Traversal in reverse direction:")
+
+    last = start.prev
+
+    temp = last
+
+    while (temp.prev != last):
+ 
+
+        print(temp.data, end=" ")
+
+        temp = temp.prev
+ 
+
+    print(temp.data)
+ 
+ 
+# Driver Code
+
+if __name__ == '__main__':
+
+    global start
+ 
+
+    # Start with the empty list
+
+    start = None
+ 
+
+    # Insert 5. So linked list becomes 5.None
+
+    insertEnd(5)
+ 
+
+    # Insert 4 at the beginning. So linked
+
+    # list becomes 4.5
+
+    insertBegin(4)
+ 
+
+    # Insert 7 at the end. So linked list
+
+    # becomes 4.5.7
+
+    insertEnd(7)
+ 
+
+    # Insert 8 at the end. So linked list
+
+    # becomes 4.5.7.8
+
+    insertEnd(8)
+ 
+
+    # Insert 6, after 5. So linked list
+
+    # becomes 4.5.6.7.8
+
+    insertAfter(6, 5)
+ 
+
+    print("Created circular doubly linked list is: ")
+
+    display()
